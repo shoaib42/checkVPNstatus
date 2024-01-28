@@ -15,18 +15,18 @@ import (
 var dnsServer string
 
 func main() {
-
 	port := flag.Int("port", 8080, "Port number to bind to")
 	dnsServerIP := flag.String("dns", "8.8.8.8", "DNS server IP address to use")
+	basePath := flag.String("basepath", "", "Base path for the application, should start with /")
 	flag.Parse()
 
 	dnsServer = fmt.Sprintf("%s:53", *dnsServerIP)
 
-	http.HandleFunc("/checkvpn", checkVPNHandler)
+	http.HandleFunc(*basePath+"/checkvpn", checkVPNHandler)
 
 	addr := fmt.Sprintf(":%d", *port)
-	fmt.Printf("Server listening on port %d\n", *port)
 	fmt.Printf("DNS server set to %s\n", dnsServer)
+	fmt.Printf("Server listening on port %d with base path [%s]\n", *port, *basePath)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		fmt.Printf("Error starting server: %s\n", err)
 		os.Exit(1)
