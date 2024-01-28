@@ -1,0 +1,13 @@
+[Unit]
+Description=Check VPN status
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/checkVPNstatus -port 8111 -dns 1.1.1.1
+WorkingDirectory=/tmp
+User=your_username
+Group=your_groupname
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
